@@ -217,7 +217,8 @@ if (dietForm) {
                 alert(`Thanks ${name}! Your request has been saved to our database. I'll get back to you soon!`);
                 this.reset();
             } else {
-                alert(`Oops! ${result.error || 'Something went wrong. Please try again later.'}`);
+                const errorMsg = result.details ? `${result.error}: ${result.details}` : (result.error || 'Something went wrong');
+                alert(`Oops! ${errorMsg}`);
             }
         } catch (error) {
             console.error('Submission error:', error);
