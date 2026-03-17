@@ -43,13 +43,25 @@ app.post('/api/contact', async (req, res) => {
             return res.status(400).json({ error: 'Please provide name, email, and request type.' });
         }
 
+        // Ensure we are connected before saving
+        if (mongoose.connection.readyState !== 1) {
+            if (!MONGO_URI) {
+                return res.status(500).json({ error: 'DATABASE_ERROR: MONGODB_URI is not defined in Vercel environment variables.' });
+            }
+            await mongoose.connect(MONGO_URI);
+        }
+
         const newContact = new Contact({ name, email, requestType });
         await newContact.save();
 
         res.status(201).json({ message: 'Request saved successfully!' });
     } catch (error) {
         console.error('Error saving contact:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ 
+            error: 'Internal Server Error', 
+            details: error.message,
+            code: error.code || 'UNKNOWN_ERROR'
+        });
     }
 });
 
