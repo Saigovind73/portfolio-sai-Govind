@@ -221,7 +221,7 @@ if (dietForm) {
             }
         } catch (error) {
             console.error('Submission error:', error);
-            alert('Unable to connect to the server. If this is a local test, make sure the backend is running!');
+            alert(`Unable to connect to the server (${error.message}). Please check your internet connection and ensure the backend is running!`);
         } finally {
             if (submitBtn) {
                 submitBtn.disabled = false;
