@@ -183,6 +183,7 @@ if (dietForm) {
         const name = document.getElementById('user-name').value;
         const email = document.getElementById('user-email').value;
         const type = document.getElementById('request-type').value;
+        const goal = document.getElementById('goal').value;
 
         // Visual feedback
         const submitBtn = this.querySelector('button') || this.querySelector('input[type="submit"]');
@@ -195,7 +196,7 @@ if (dietForm) {
 
         try {
             // Point to your Vercel deployment URL here in production
-            const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === ''
                 ? 'http://localhost:5001/api/contact' 
                 : '/api/contact'; // Relative path works if deployed on same Vercel project
 
@@ -207,7 +208,8 @@ if (dietForm) {
                 body: JSON.stringify({
                     name: name,
                     email: email,
-                    requestType: type
+                    requestType: type,
+                    goal: goal
                 }),
             });
 
@@ -232,3 +234,79 @@ if (dietForm) {
         }
     });
 }
+// AI Chat Assistant Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const chatToggle = document.getElementById('chat-toggle');
+    const chatWindow = document.getElementById('chat-window');
+    const closeChat = document.getElementById('close-chat');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+
+    if (chatToggle && chatWindow && closeChat && chatForm) {
+        // Toggle Chat Window
+        chatToggle.addEventListener('click', () => {
+            chatWindow.classList.toggle('show');
+        });
+
+        closeChat.addEventListener('click', () => {
+            chatWindow.classList.remove('show');
+        });
+
+        // Handle Chat Submission
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // Add user message
+            addMessage(text, 'user-message');
+            chatInput.value = '';
+
+            // Add AI placeholder
+            const aiMessageDiv = document.createElement('div');
+            aiMessageDiv.className = 'message ai-message';
+            aiMessageDiv.textContent = '...';
+            chatMessages.appendChild(aiMessageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ messages: [{ role: 'user', content: text }] })
+                });
+
+                if (!response.ok) throw new Error('Failed to reach AI assistant');
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let aiText = '';
+                aiMessageDiv.textContent = ''; // Clear placeholder
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value);
+                    aiText += chunk;
+                    // Note: Vercel AI SDK data stream format might need parsing if it's more than plain text
+                    // For simplicity, we'll assume the stream contains the text chunks
+                    aiMessageDiv.textContent = aiText;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            } catch (error) {
+                console.error('Chat error:', error);
+                aiMessageDiv.textContent = 'Sorry, I encountered an error. Please try again later.';
+            }
+        });
+    }
+
+    function addMessage(text, className) {
+        const div = document.createElement('div');
+        div.className = `message ${className}`;
+        div.textContent = text;
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+});

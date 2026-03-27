@@ -17,6 +17,8 @@
             <nav>
                 <div class="logo">SG</div>
                 <ul class="nav-links">
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#skills">Skills</a></li>
                     <li><a href="#gym-tracker">Gym Tracker</a></li>
                     <li><a href="#health-request">Get In Touch</a></li>
                 </ul>
@@ -34,6 +36,56 @@
             </div>
             <div class="hero-image">
                 <img src="profile.png" alt="Sai Govind Profile">
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">Skills & Professional Certifications</h2>
+            
+            <div class="skills-grid">
+                <!-- AI & ML Skills -->
+                <div class="skill-card">
+                    <div class="stat-icon">🤖</div>
+                    <h3>AI & Machine Learning</h3>
+                    <p>Python, TensorFlow, Scikit-learn, Neural Networks</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="stat-icon">💻</div>
+                    <h3>Full-Stack Development</h3>
+                    <p>HTML5, CSS3, JavaScript, Node.js, Express</p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="stat-icon">📊</div>
+                    <h3>Data Science</h3>
+                    <p>Data Wrangling, Analytics, Matplotlib, Pandas</p>
+                </div>
+            </div>
+
+            <div class="projects-grid" style="margin-top: 3rem;">
+                <!-- IBM Cert -->
+                <div class="skill-card">
+                    <div class="stat-icon">🏆</div>
+                    <h3>IBM Certified</h3>
+                    <p>Artificial Intelligence & Data Science Professional</p>
+                </div>
+                
+                <!-- Infosys Cert -->
+                <div class="skill-card">
+                    <div class="stat-icon">🏅</div>
+                    <h3>Infosys Certification</h3>
+                    <p>Software Engineering & Python Programming</p>
+                </div>
+
+                <!-- GitHub/Microsoft -->
+                <div class="skill-card">
+                    <div class="stat-icon">✨</div>
+                    <h3>Micro-Certifications</h3>
+                    <p>GitHub & Microsoft Professional Training</p>
+                </div>
             </div>
         </div>
     </section>
@@ -102,6 +154,27 @@
                     <p>Cardio</p>
                 </div>
             </div>
+
+            <!-- AI Chat Assistant -->
+    <div id="ai-chat-widget" class="ai-chat-widget">
+        <button id="chat-toggle" class="chat-toggle">
+            <span class="chat-icon">💬</span>
+            <span class="chat-label">Chat with AI</span>
+        </button>
+        <div id="chat-window" class="chat-window">
+            <div class="chat-header">
+                <h3>Fitness & AI Assistant</h3>
+                <button id="close-chat" class="close-chat">&times;</button>
+            </div>
+            <div id="chat-messages" class="chat-messages">
+                <div class="message ai-message">Hi! I'm your AI assistant. How can I help you today?</div>
+            </div>
+            <form id="chat-form" class="chat-form">
+                <input type="text" id="chat-input" placeholder="Type a message..." required>
+                <button type="submit" id="send-chat">Send</button>
+            </form>
+        </div>
+    </div>
 
             <!-- Visual Showcase -->
             <div class="visual-showcase">

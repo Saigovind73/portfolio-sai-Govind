@@ -2,15 +2,21 @@
   "name": "potofolio-25aimb48",
   "version": "1.0.0",
   "description": "",
-  "main": "script.js",
+  "main": "api/index.js",
   "scripts": {
+    "start": "node api/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
+    "@ai-sdk/openai": "^3.0.48",
+    "ai": "^6.0.138",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
